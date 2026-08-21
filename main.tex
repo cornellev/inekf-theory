@@ -1,0 +1,42 @@
+\documentclass[conference]{IEEEtran}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+\usepackage{amsmath, amsfonts, amsthm, amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{macros}
+\usepackage{url}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, fit, backgrounds, decorations.pathreplacing}
+
+% Cache PGF compiles: each tikzpicture is built once into figures/tikz-cache/ and
+% thereafter just \includegraphics'd. The Lie-group wireframe alone was 3.4s of a
+% 5.4s build, because every plotted point goes through pgfmath. Needs -shell-escape
+% (already required) and the cache directory to exist.
+\usetikzlibrary{external}
+\tikzexternalize[prefix=figures/tikz-cache/]
+\usepackage{minted}
+\usepackage{graphicx}
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage[backend=biber, style=numeric]{biblatex}
+% \addbibresource{references.bib}
+
+\begin{document}
+  \title{\textbf{Invariant Estimator Framework for Autonomous Cars}}
+  \author{
+    \IEEEauthorblockN{Lucas Libshutz}
+    \IEEEauthorblockA{
+      \textit{Cornell University} \\
+    }
+  }
+
+  \maketitle
+
+  \input{sections/state.tex}
+\end{document}
