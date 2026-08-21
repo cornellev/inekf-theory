@@ -1,3 +1,24 @@
 \section{State on $SE_2(3)$}
 
-We define the state on the group manifold $SE_2(3)$, such that we can maintain invariant observer properties while keeping the system as observable as possible
+We define the state on the group manifold $SE_2(3)$, such that we can maintain invariant observer properties while keeping the system as observable as possible:
+
+\begin{equation}
+  X = 
+  \begin{bmatrix}
+    \rotmat{W}{B} & \fv{W}{v}_{\mathcal{B}} & \fv{W}{p}_{\mathcal{B}} \\
+    \mathbf{0}_{3\times 3} & I & 0 \\
+    \mathbf{0}_{3\times 3} & 0 & I
+  \end{bmatrix}
+  \in SE_2(3), \quad \boldsymbol{\theta} = (\boldsymbol{b}_g, \boldsymbol{b}_a) \in \mathbb{R}^6
+  \label{eq:car_state}
+\end{equation}
+
+With the associated tangent vector defined as the following:
+
+\begin{equation}
+  \bsxi = 
+  \begin{bmatrix} 
+    \bsxi_{\bsphi} & \bsxi_{\mathbf{v}} & \bsxi_{\mathbf{p}} & \boldsymbol{\zeta}_g & \boldsymbol{\zeta}_a
+  \end{bmatrix} \in \mathbb{R}^{15}
+  \label{eq:tangent_vector}
+\end{equation}
