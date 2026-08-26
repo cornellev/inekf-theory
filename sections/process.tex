@@ -11,26 +11,47 @@ We define the following continuous time (CT) dynamics:
   \label{eq:ct_dynamics}
 \end{equation}
 
-If we assume that the input measurements $\fv{B}{\bsomega}$ and $\fv{W}{a}_{\mathcal{B}}$ are constant over some small timestep interval $[t, t + \Delta t]$ (i.e., zero-order hold), then we know that the rotation matrix proopagation is defined exactly:
+And we know that these dynamics are \textit{group-affine} - that is, that they yield a log-linear error which is bounded - this is further shown in the appendix. If we assume that the input measurements $\fv{B}{\bsomega}$ and $\fv{W}{a}_{\mathcal{B}}$ are constant over some small timestep interval $[t, t + \Delta t]$ (i.e., zero-order hold), then we know that the rotation matrix proopagation is defined exactly:
 %%TODO: add citation on how this actually works.
 
 \begin{equation}
-  \rotmat{W}{B}(t+\tau) = \rotmat{W}{B} \exp(\bsomega^\wedge \tau) 
+  \rotmat{W}{B}(t_k+s) = \rotmat{W}{B,\mathnormal{k}} \exp(s[\bsomega]^\wedge) 
   \label{eq:rot_prop}
 \end{equation}
 
-Therefore, for discretizing the dynamics, we can start with the rotation propagation in discrete time as defined above, and use that in both the velocity and position. Starting with velocity, if we use standard Euler's method for integration, we define $\fv{W}{v}_{\mathcal{B},k+1|k}=\fv{W}{v}_{\mathcal{B},k|k}+\int_0^{\Delta t} \left[\rotmat{W}{B} \exp(\bsomega^\wedge \tau)\fv{B}{a} + \fv{W}{g}\right]d\tau$, and substitute $\tau = s\Delta t$, and assume $\bsphi = \bsomega \Delta t$, then we can rewrite the inner integrand as the following:
+This means that we can substitute this into the discretization of both velocity and position, with $s = u \Delta t$, for some timestep $\Delta t$. For instance, with velocity, the integrand yields:
 
 \begin{equation}
-  \int_0^{\Delta t} \exp(\bsomega^\wedge \tau)d\tau = \Delta t \int_0^1
-  \exp(\bsphi^\wedge s)ds = \Delta t \sum_{n \geq 0}
-  \frac{(\bsphi^\wedge)^n}{(n+1)!} 
-  \label{eq:closed_form_exp_vel}
+  \int_0^{\Delta t} \exp(s[\bsomega]^\wedge)ds = \Delta t \int_0^1 \exp(u[\bsphi]^\wedge)du = \Delta t \Gamma_1(\bsphi)
+  \label{eq:vel_integration}
 \end{equation}
 
-And if we look at the same thing for position as a double integral (whose derivation is included in the appendix of this paper), this converges to a general series:
+And the integral behaves similarly for position. This means that after discretizing, we are left with the following dynamics that obey the $SO(3)$ manifold:
 
 \begin{equation}
-  \Gamma_m(\bsphi) \triangleq \sum_{n=0}^\infty \frac{(\bsphi^\wedge)^n}{(n+m)!} 
-  \label{eq:gamma_func}
+  \boxed{
+  \begin{aligned}
+    R_{k+1|k} &= R_{k|k}\Gamma_0(\bsphi) \\
+    \mathbf{v}_{k+1|k} &= \mathbf{v}_{k|k} + \fv{W}{g}\Delta t + R_{k|k}\Gamma_1(\bsphi)\mathbf{a}\Delta t \\
+    \mathbf{p}_{k+1|k} &= \mathbf{p}_{k|k} + \mathbf{v}_{k|k}\Delta t + \frac{1}{2}\fv{W}{g}\Delta t^2 + R_{k|k}\Gamma_2(\bsphi)\mathbf{a}\Delta t^2 \\
+    \hat{\bstheta}_{k+1|k} &= \hat{\bstheta}_{k|k}
+  \end{aligned}
+  }
+  \label{eq:dt_dynamics}
 \end{equation}
+
+% Therefore, for discretizing the dynamics, we can start with the rotation propagation in discrete time as defined above, and use that in both the velocity and position. Starting with velocity, if we use standard Euler's method for integration, we define $\fv{W}{v}_{\mathcal{B},k+1|k}=\fv{W}{v}_{\mathcal{B},k|k}+\int_0^{\Delta t} \left[\rotmat{W}{B} \exp(\bsomega^\wedge \tau)\fv{B}{a} + \fv{W}{g}\right]d\tau$, and substitute $\tau = s\Delta t$, and assume $\bsphi = \bsomega \Delta t$, then we can rewrite the inner integrand as the following:
+%
+% \begin{equation}
+%   \int_0^{\Delta t} \exp(\bsomega^\wedge \tau)d\tau = \Delta t \int_0^1
+%   \exp(\bsphi^\wedge s)ds = \Delta t \sum_{n \geq 0}
+%   \frac{(\bsphi^\wedge)^n}{(n+1)!} 
+%   \label{eq:closed_form_exp_vel}
+% \end{equation}
+%
+% And if we look at the same thing for position as a double integral (whose derivation is included in the appendix of this paper), this converges to a general series:
+%
+% \begin{equation}
+%   \Gamma_m(\bsphi) \triangleq \sum_{n=0}^\infty \frac{(\bsphi^\wedge)^n}{(n+m)!} 
+%   \label{eq:gamma_func}
+% \end{equation}
