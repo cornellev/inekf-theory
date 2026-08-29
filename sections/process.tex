@@ -22,23 +22,23 @@ And we know that these dynamics are \textit{group-affine} - that is, that they y
 This means that we can substitute this into the discretization of both velocity and position, with $s = u \Delta t$, for some timestep $\Delta t$. For instance, with velocity, the integrand yields:
 
 \begin{equation}
-  \int_0^{\Delta t} \exp(s[\bsomega]^\wedge)ds = \Delta t \int_0^1 \exp(u[\bsphi]^\wedge)du = \Delta t \Gamma_1(\bsphi)
+  \int_0^{\Delta t}\! \exp(s[\bsomega]^\wedge)ds = \Delta t \int_0^1\! \exp(u[\bsphi]^\wedge)du = \Delta t \Gamma_1(\bsphi)
   \label{eq:vel_integration}
 \end{equation}
 
 And the integral behaves similarly for position. This means that after discretizing, we are left with the following dynamics that obey the $SO(3)$ manifold:
 
+{\small
 \begin{equation}
-  \boxed{
   \begin{aligned}
     R_{k+1|k} &= R_{k|k}\Gamma_0(\bsphi) \\
     \mathbf{v}_{k+1|k} &= \mathbf{v}_{k|k} + \fv{W}{g}\Delta t + R_{k|k}\Gamma_1(\bsphi)\mathbf{a}\Delta t \\
     \mathbf{p}_{k+1|k} &= \mathbf{p}_{k|k} + \mathbf{v}_{k|k}\Delta t + \frac{1}{2}\fv{W}{g}\Delta t^2 + R_{k|k}\Gamma_2(\bsphi)\mathbf{a}\Delta t^2 \\
     \hat{\bstheta}_{k+1|k} &= \hat{\bstheta}_{k|k}
   \end{aligned}
-  }
   \label{eq:dt_dynamics}
-\end{equation}
+\end{equation}%
+}
 
 % Therefore, for discretizing the dynamics, we can start with the rotation propagation in discrete time as defined above, and use that in both the velocity and position. Starting with velocity, if we use standard Euler's method for integration, we define $\fv{W}{v}_{\mathcal{B},k+1|k}=\fv{W}{v}_{\mathcal{B},k|k}+\int_0^{\Delta t} \left[\rotmat{W}{B} \exp(\bsomega^\wedge \tau)\fv{B}{a} + \fv{W}{g}\right]d\tau$, and substitute $\tau = s\Delta t$, and assume $\bsphi = \bsomega \Delta t$, then we can rewrite the inner integrand as the following:
 %
