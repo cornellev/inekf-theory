@@ -8,8 +8,8 @@ We define the state on the group manifold $SE_2(3)$, such that we can maintain i
   X \triangleq
   \begin{bmatrix}
     \rotmat{W}{B} & \fv{W}{v}_{\mathcal{B}} & \fv{W}{p}_{\mathcal{B}} \\
-    \mathbf{0}_{3\times 3} & I & 0 \\
-    \mathbf{0}_{3\times 3} & 0 & I
+    \mathbf{0}_{1\times 3} & 1 & 0 \\
+    \mathbf{0}_{1\times 3} & 0 & 1
   \end{bmatrix}
   \in SE_2(3) \\
   \boldsymbol{\theta} = (\boldsymbol{b}_g, \boldsymbol{b}_a) \in \mathbb{R}^6
@@ -28,6 +28,6 @@ With the associated tangent vector defined as the following:
 \end{equation}
 
 where the exponential on the state component of the tangent vector defined as
-$\exp([\bsxi]^\wedge) = X^{-1}\hat{X}$, and $\boldsymbol{\zeta} = \hat{\boldsymbol{\theta}} - \boldsymbol{\theta}$.
+$\exp([\bsxi_{1:9}]^\wedge) = X^{-1}\hat{X}$, and $\boldsymbol{\zeta} = \hat{\boldsymbol{\theta}} - \boldsymbol{\theta}$.
 
 
