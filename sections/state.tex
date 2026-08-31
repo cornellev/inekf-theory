@@ -17,17 +17,37 @@ We define the state on the group manifold $SE_2(3)$, such that we can maintain i
   \label{eq:car_state}
 \end{equation}
 
-With the associated tangent vector defined as the following:
+this has the inverse state also defined as:
+
+\begin{equation}
+  X^{-1} =
+  \begin{bmatrix}
+    R^\top & -R^\top \mathbf{v} & -R^\top \mathbf{p} \\
+    \mathbf{0}_{1\times 3} & 1 & 0 \\
+    \mathbf{0}_{1\times 3} & 0 & 1
+  \end{bmatrix} \in SE_2(3)
+  \label{eq:inverse_state}
+\end{equation}
+
+As the state is defined on a \textit{matrix lie group}, we also have to define the associated lie algebra state and its associated tangent vector. Both are defined below:
+
+\begin{equation}
+  \bsxi^\wedge = 
+  \begin{bmatrix}
+    \bsrho_{\bsphi}^\wedge & \bsrho_{\mathbf{v}} & \bsrho_{\mathbf{p}} \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  \label{eq:lie_algebra}
+\end{equation}
 
 \begin{equation}
   \bsxi = 
   \begin{bmatrix} 
-    \bsxi_{\bsphi} & \bsxi_{\mathbf{v}} & \bsxi_{\mathbf{p}} & \boldsymbol{\zeta}_g & \boldsymbol{\zeta}_a
+    \bsrho_{\bsphi} & \bsrho_{\mathbf{v}} & \bsrho_{\mathbf{p}} & \boldsymbol{\zeta}_g & \boldsymbol{\zeta}_a
   \end{bmatrix} \in \mathbb{R}^{15}
   \label{eq:tangent_vector}
 \end{equation}
 
 where the exponential on the state component of the tangent vector defined as
 $\exp([\bsxi_{1:9}]^\wedge) = X^{-1}\hat{X}$, and $\boldsymbol{\zeta} = \hat{\boldsymbol{\theta}} - \boldsymbol{\theta}$.
-
-
