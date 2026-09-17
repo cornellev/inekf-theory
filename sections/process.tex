@@ -14,6 +14,7 @@ We define the following continuous time (CT) dynamics:
 \end{equation}
 
 where $\fv{B}{\bar{\bsomega}}$ and $\fv{B}{\bar{a}}$ are the bias corrected inputs, which are later derived in \ref{sec:measurement_model}. And we know that these dynamics, when \underline{bias-free}, are \textit{group-affine} - that is, that they yield a log-linear error such that $\dot{\bsxi} = A\bsxi$ (with $\bseta = \exp(\bsxi^\wedge)$) - this is further shown in the appendix. However, this is generally not the case, as shown in (\textcolor{red}{CITE Barreau here}), that the augmentation of biases onto the InEKF state yields an imperfect InEKF, as $\bar{\bsomega}$ and $\bar{\mathbf{a}}$ both depend on $\hbf{b}$.
+%TODO: add equations for IMU models.
 
 If we assume that the input measurements $\fv{B}{\bsomega}$ and $\fv{B}{a}$ are constant over some small timestep interval $[t, t + \Delta t]$ (i.e., zero-order hold), then we know that the rotation matrix propagation is defined exactly:
 %%TODO: add citation on how this actually works.
@@ -32,14 +33,26 @@ This means that we can substitute this into the discretization of both velocity 
 
 And the integral behaves similarly for position. This means that after discretizing, we are left with the following dynamics that obey the $SO(3)$ manifold that live on $SE_2(3)$, with $\bsphi \triangleq \bar{\bsomega} \Delta t$, and frames omitted from state components as in \eqref{eq:car_state} for brevity:
 
-{\small
+\small{
 \begin{equation}
   \begin{aligned}
     R_{k+1|k} &= R_{k|k}\Gamma_0(\bsphi) \\
     \mathbf{v}_{k+1|k} &= \mathbf{v}_{k|k} + \fv{W}{g}\Delta t + R_{k|k}\Gamma_1(\bsphi)\mathbf{a}\Delta t \\
     \mathbf{p}_{k+1|k} &= \mathbf{p}_{k|k} + \mathbf{v}_{k|k}\Delta t + \frac{1}{2}\fv{W}{g}\Delta t^2 + R_{k|k}\Gamma_2(\bsphi)\mathbf{a}\Delta t^2 \\
-    \hat{\bstheta}_{k+1|k} &= \hat{\bstheta}_{k|k}
   \end{aligned}
   \label{eq:dt_dynamics}
-\end{equation}%
+\end{equation}
 }
+
+\subsection{Component-wise Error Derivations}
+
+\subsubsection{Rotation Error}
+Using the right-invariant error convention as defined in \eqref{eq:ri_error}, we can decompose the rotation error as:
+
+\begin{equation}
+  \begin{gathered}
+  \dot{\eta}_R = \dot{\hat{R}}R^\top + \hat{R}\dot{R}^\top = \hat{R}\bar{\bsomega}^\wedge R^\top - \hat{R}\bsomega^\wedge R^\top \\
+  \dot{\eta}_R = \hat{R}(\bar{\bsomega}-\bsomega)^\wedge R^\top
+  \end{gathered}
+  \label{eq:rotation_error1}
+\end{equation}
