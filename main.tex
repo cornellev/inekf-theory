@@ -13,12 +13,17 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, positioning, calc, fit, backgrounds, decorations.pathreplacing}
 
-% Cache PGF compiles: each tikzpicture is built once into figures/tikz-cache/ and
+% Cache PGF compiles: each tikzpicture is built once into build/tikz-cache/ and
 % thereafter just \includegraphics'd. The Lie-group wireframe alone was 3.4s of a
 % 5.4s build, because every plotted point goes through pgfmath. Needs -shell-escape
-% (already required) and the cache directory to exist.
+% (already required) and the cache directory to exist (.latexmkrc mkdir -p's it).
+% The sub-compiles are plain \write18 calls from the repo root, so they need
+% -output-directory=build handed to them explicitly to keep the root clean.
 \usetikzlibrary{external}
-\tikzexternalize[prefix=figures/tikz-cache/]
+\tikzexternalize[prefix=tikz-cache/]
+\tikzset{external/system call={%
+  pdflatex -shell-escape -halt-on-error -interaction=batchmode
+  -output-directory=build -jobname "\image" "\texsource"}}
 \usepackage{minted}
 \usepackage{graphicx}
 \usepackage{gensymb}
