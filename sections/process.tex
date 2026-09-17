@@ -13,7 +13,7 @@ We define the following continuous time (CT) dynamics:
   \label{eq:ct_dynamics}
 \end{equation}
 
-where $\fv{B}{\bar{\bsomega}}$ and $\fv{B}{\bar{a}}$ are the bias corrected inputs, which are later derived in \ref{sec:measurement_model}. And we know that these dynamics, when \underline{bias-free}, are \textit{group-affine} - that is, that they yield a log-linear error such that $\dot{\bseta} = A\bseta$ - this is further shown in the appendix. However, this is generally not the case, as shown in (\textcolor{red}{CITE Barreau here}), that the augmentation of biases onto the InEKF state yields an imperfect InEKF, as $\bar{\bsomega}$ and $\bar{\mathbf{a}}$ both depend on $\hbf{b}$.
+where $\fv{B}{\bar{\bsomega}}$ and $\fv{B}{\bar{a}}$ are the bias corrected inputs, which are later derived in \ref{sec:measurement_model}. And we know that these dynamics, when \underline{bias-free}, are \textit{group-affine} - that is, that they yield a log-linear error such that $\dot{\bsxi} = A\bsxi$ (with $\bseta = \exp(\bsxi^\wedge)$) - this is further shown in the appendix. However, this is generally not the case, as shown in (\textcolor{red}{CITE Barreau here}), that the augmentation of biases onto the InEKF state yields an imperfect InEKF, as $\bar{\bsomega}$ and $\bar{\mathbf{a}}$ both depend on $\hbf{b}$.
 
 If we assume that the input measurements $\fv{B}{\bsomega}$ and $\fv{B}{a}$ are constant over some small timestep interval $[t, t + \Delta t]$ (i.e., zero-order hold), then we know that the rotation matrix propagation is defined exactly:
 %%TODO: add citation on how this actually works.
@@ -30,7 +30,7 @@ This means that we can substitute this into the discretization of both velocity 
   \label{eq:vel_integration}
 \end{equation}
 
-And the integral behaves similarly for position. This means that after discretizing, we are left with the following dynamics that obey the $SO(3)$ manifold that live on $SE_2(3)$, with $\bsphi \triangleq \bar{\bsomega} \Delta t$:
+And the integral behaves similarly for position. This means that after discretizing, we are left with the following dynamics that obey the $SO(3)$ manifold that live on $SE_2(3)$, with $\bsphi \triangleq \bar{\bsomega} \Delta t$, and frames omitted from state components as in \eqref{eq:car_state} for brevity:
 
 {\small
 \begin{equation}

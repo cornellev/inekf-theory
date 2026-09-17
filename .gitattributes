@@ -1,0 +1,2 @@
+# Built PDFs are tracked, but binary — never try to diff or merge them textually
+*.pdf -diff -merge

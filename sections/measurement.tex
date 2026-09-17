@@ -1,11 +1,13 @@
 \section{Measurement Model}
 \label{sec:measurement_model}
 
-We formulate the measurement models in both the \textit{right-invariant} and \textit{left-invariant} forms \textcolor{red}{(CITE this)}, i.e. $\mathbf{Y}_i = X^{-1} \mathbf{b}_i$. We define four measurement models, two in the right-invariant form (i.e., body frame centric), and two in the left-invariant form.
+%%TODO: add corrected measurements for angular velocity and linear acceleration, as you referenced them before
+
+We formulate the measurement models in both the \textit{right-invariant} and \textit{left-invariant} forms \textcolor{red}{(CITE this)}, i.e. $\mathbf{Y}_i = X^{-1} \mathbf{d}_i + \mathbf{V}_i$ for right-invariant and $\mathbf{Y}_i = X\mathbf{d}_i + \mathbf{V}_i$ for left-invariant. We define four measurement models, two in the right-invariant form (body frame centric), and two in the left-invariant form.
 
 \subsection{Right-Invariant Measurement Models}
 
-\subsubsection{Body-velocity psuedo measurement}
+\subsubsection{Body-Frame Velocity Psuedo Measurement}
 
 We define the body-frame velocity at the IMU origin as $\fv{B}{v} = \rotmat{W}{B}^\top \fv{W}{v}_{\mathcal{B}}$. And if we define $\mathbf{r}_w$ as the vector from the IMU origin to the center of the rear axle, by rigid body kinematics we have:
 
@@ -14,10 +16,10 @@ We define the body-frame velocity at the IMU origin as $\fv{B}{v} = \rotmat{W}{B
   \label{eq:axle_vel}
 \end{equation}
 
-Now that we have the equation, we need to put this into Lie group measurement form. As this is body frame, we need to utilize the inverse of the state, as defined in \eqref{eq:inverse_state}. If we define the selection vector $\mathbf{b}=(\mathbf{0}_3,1,0)^\top$, then we get our measurement model as:
+Now that we have the equation, we need to put this into Lie group measurement form. As this is body frame, we need to utilize the inverse of the state, as defined in \eqref{eq:inverse_state}. If we define the selection vector $\mathbf{d}=(\mathbf{0}_3,1,0)^\top$, then we get our measurement model as:
 
 \begin{equation}
-  X^{-1}\mathbf{b} =
+  X^{-1}\mathbf{d} =
   \begin{bmatrix}
     R^\top & -R^\top \mathbf{v} & -R^\top \mathbf{p} \\
     0 & 1 & 0 \\
@@ -32,6 +34,17 @@ Now that we have the equation, we need to put this into Lie group measurement fo
   \label{eq:axle_meas}
 \end{equation}
 
+\subsubsection{Zero Angular Update Rate (ZARU)}
+
+This measurement is deliberately excluded from the group, and is simply a method with which to pin $\mathbf{b}_g$ when the car is stationary, as at a zero point we know that $\tilde{\bsomega} = \boldsymbol{b}_g + \mathbf{n}_g$. Because of this, we can directly formulate the measurement model, along with its linearized Jacobian, as the following:
+
+\begin{equation}
+  \begin{gathered}
+    \mathbf{z} = \tilde{\bsomega} - \hbs{b}_g \\
+    H = \begin{bmatrix} 0 & 0 & 0 & -I_3 & 0 \end{bmatrix}
+  \end{gathered}
+  \label{eq:}
+\end{equation}
 
 \subsection{Left-Invariant Measurement Models}
 
