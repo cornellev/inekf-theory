@@ -1,53 +1,54 @@
-\section{State on $SE_2(3)$}
+\section{Car State}
 
-%%TODO: this sounds a bit clunky - invariant observer -> observable, a bit repetitive.
-We define the state on the group manifold $SE_2(3)$, such that we can maintain invariant observer properties while keeping the system as observable as possible:
-
+% We define the state on the group manifold $SE_2(3)$, such that we can maintain invariant properties while keeping the system as observable as possible:
+We define the state as in the two-frame group composition, as defined in \textcolor{red}{(Cite Barreau here on this)}:
 \begin{equation}
   \begin{gathered}
-  X \triangleq
-  \begin{bmatrix}
-    \rotmat{W}{B} & \fv{W}{v}_{\mathcal{B}} & \fv{W}{p}_{\mathcal{B}} \\
-    \mathbf{0}_{1\times 3} & 1 & 0 \\
-    \mathbf{0}_{1\times 3} & 0 & 1
-  \end{bmatrix}
-  \in SE_2(3) \\
-  \boldsymbol{\theta} = (\boldsymbol{b}_g, \boldsymbol{b}_a) \in \mathbb{R}^6
+  \chi = \left(
+    \begin{array}{cccccc}
+      \rotmat{W}{B} &
+      \fv{W}{v}_{\mathcal{B}} &
+      \fv{W}{p}_{\mathcal{B}} &
+      \mathbf{b}_g &
+      \mathbf{b}_a &
+      \mathbf{l}
+    \end{array}
+  \right) \\
+  \text{s.t. } \chi \in \mathcal{G}_{\mathrm{TF}}(2,3) \triangleq SO(3) \ltimes \left(\mathbb{R}^{6} \oplus \mathbb{R}^{9}\right)
   \end{gathered}
   \label{eq:car_state}
 \end{equation}
 
-this has the inverse state also defined as:
+where $\mathbf{l}\in \mathbb{R}^3$ is an estimate on the lever arm between the GPS and the axle of the car, used for NHC measurement models \textcolor{red}{CITE which section once you have it}. This is a subset of the general group form $\chi = (R,\mathbf{x},\mathbf{y})$, where $R\in SO(3), \mathbf{x} \in \mathbb{R}^{3k}$ (world-frame vectors), and $\mathbf{y} \in \mathbb{R}^{3\ell}$ (body-frame vectors). The group's composition properties are defined as the following:
 
 \begin{equation}
-  X^{-1} =
-  \begin{bmatrix}
-    R^\top & -R^\top \mathbf{v} & -R^\top \mathbf{p} \\
-    \mathbf{0}_{1\times 3} & 1 & 0 \\
-    \mathbf{0}_{1\times 3} & 0 & 1
-  \end{bmatrix} \in SE_2(3)
-  \label{eq:inverse_state}
+  \begin{gathered}
+    \chi_1\chi_2 = (R_1R_2, \mathbf{x}_1 + R_1\mathbf{x}_2, \mathbf{y}_2 + \mathbf{R}_2^\top \mathbf{y}_1) \\
+    \exp(\bsphi,\mathbf{x},\mathbf{y}) = (\Gamma_0(\bsphi),J_l(\bsphi)\mathbf{x},J_r(\bsphi)\mathbf{y}) \\
+    \chi^{-1} = (R^\top, -R^\top \mathbf{x}, -R\mathbf{y})
+  \end{gathered}
+  \label{eq:tfg_properties}
 \end{equation}
 
-As the state is defined on a \textit{matrix lie group}, we also have to define the associated lie algebra state and its associated tangent vector. Both are defined below:
+and the exponential $\exp(\bsphi, \mathbf{x}, \mathbf{y})$ is defined in the appendix. \textcolor{red}{(Add appendix section here.)}
+%NOTE: define the adjoint when you mention covariance transport later.
+
+As we are defining a primarily \textbf{world-centric} estimator, we define the primary error to be in the right-invariant convention:
 
 \begin{equation}
-  \bsxi^\wedge = 
-  \begin{bmatrix}
-    \bsrho_{\bsphi}^\wedge & \bsrho_{\mathbf{v}} & \bsrho_{\mathbf{p}} \\
-    0 & 0 & 0 \\
-    0 & 0 & 0
-  \end{bmatrix}
-  \label{eq:lie_algebra}
+  \bseta = \hat{\chi}\chi^{-1}
+  \label{eq:ri_error}
 \end{equation}
+
+Because we have defined the filter state on a matrix lie group, we must define its associated lie algebra. The dimension of the state is 18 (we need only an $\mathbb{R}^3$ perturbation to the orientation as an algebra element), therefore we can make use of the group composition properties defined in \eqref{eq:tfg_properties} to decompose \eqref{eq:ri_error} into the error dynamics for each portion of the state:
 
 \begin{equation}
-  \bsxi = 
-  \begin{bmatrix} 
-    \bsrho_{\bsphi} & \bsrho_{\mathbf{v}} & \bsrho_{\mathbf{p}} & \boldsymbol{\zeta}_g & \boldsymbol{\zeta}_a
-  \end{bmatrix} \in \mathbb{R}^{15}
-  \label{eq:tangent_vector}
+  \begin{gathered} 
+    \eta_R = \hat{R}R^\top \\
+    \eta_{\mathbf{x}} =\hbf{x}-\eta_R\mathbf{x} \\
+    \eta_{\mathbf{y}} = R(\hbf{y}-\mathbf{y})
+  \end{gathered} 
+  \label{eq:error_dynamics}
 \end{equation}
 
-where the exponential on the state component of the tangent vector defined as
-$\exp([\bsxi_{1:9}]^\wedge) = \hat{X}X^{-1}=\bseta_R$ (the right-invariant error), and $\boldsymbol{\zeta} = \hat{\boldsymbol{\theta}} - \boldsymbol{\theta}$.
+This means that the associated lie-alegbra coordinates are such that $\bsxi = \log \bseta \in \mathbb{R}^{18}$. 

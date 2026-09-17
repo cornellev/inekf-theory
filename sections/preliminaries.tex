@@ -1,0 +1,19 @@
+\section{Mathematical Preliminaries}
+
+\subsection{Notation and Frame Conventions}
+
+\begin{itemize}
+  \item ${}^\mathcal{A}\mathbf{p}_{\mathcal{B}\to \mathcal{C}}$ denotes a position vector centered at the origin of reference frame $\mathcal{B}$ extending to the origin of frame $\mathcal{C}$, expressed in frame $\mathcal{A}$. $\mathbf{p}$ denotes an \textit{unknown} position vector, while $\mathbf{r}$ denotes a constant, known value, such as a geometric parameter.
+  \item $\rotmat{A}{B}\in SO(3)$ is the rotation matrix relating the orientation of frame $\mathcal{B}$ in frame $\mathcal{A}$.
+\end{itemize}
+
+\subsection{Matrix Lie Groups}
+\begin{itemize}
+  \item $\mathcal{G} \subset \mathbb{R}^{n\times n}$ denotes the matrix lie group $G$, with the states $X,Y\in G$ as elements of the group.
+  \item $\mathfrak{g} \subset \mathbb{R}^{n\times n}$ denotes the associated lie algebra for the lie group $\mathcal{G}$.
+  \item $[\cdot]_\mathcal{G}^\wedge: \mathbb{R}^p \to \mathfrak{g}$ is the wedge operator, a linear isomorphism between the Lie algebra $\mathfrak{g}$ and a $p$-dimensional vector space, and $[\cdot]_\mathcal{G}^\vee: \mathfrak{g}\to \mathbb{R}^p$ is the vee operator, which is the inverse mapping, $\forall \ \mathfrak{a} \in \mathfrak{g}, \mathbf{a} = [\mathfrak{a}]_\mathcal{G}^\vee \in \mathbb{R}^p$, and $\mathfrak{a}=[\mathbf{a}]_\mathcal{G}^\wedge$.
+  \item $\exp_G^\wedge: \mathbb{R}^p \to \mathcal{G}$ is the exponential map from the associated vector space directly to the lie group, such that $\forall \mathbf{a} \in \mathbb{R}^p, \exp_\mathcal{G}^\wedge(a) = \exp([\mathbf{a}]_\mathcal{G}^\wedge)$.
+  \item $\log_\mathcal{G}^\vee: \mathcal{G}\to \mathbb{R}^p$ is the logarithmic operator that maps the elements of the Lie group $\mathcal{G}$ directly to the vector space, such that $\forall X \in \mathcal{G}, \log_\mathcal{G}^\vee(X)=\log([X]_\mathcal{G}^\vee)$.
+  \item The group adjoint $\mathrm{Ad}_X: \mathfrak{g}\to\mathfrak{g}$ is the mapping to the tangent space such that $\mathrm{Ad}_X=X\boldsymbol{\xi}^\wedge X^{-1} \in \mathbb{R}^{p\times p}$. The homomorphic property for the combined adjoint $\mathrm{Ad}_{XY}$ is defined such that $\mathrm{Ad}_{XY}=\mathrm{Ad}_X\mathrm{Ad}_Y$, and $\mathrm{Ad}_{X^{-1}}=\mathrm{Ad}_X^{-1}$.
+  \item The "small" adjoint $\mathrm{ad}_{\boldsymbol{\xi}}: \mathfrak{g}\to\mathfrak{g}$ is defined as the derivative of the group adjoint $\mathrm{Ad}_X$ at the identity, also known as the Lie bracket, such that $\mathrm{ad}_{\boldsymbol{\xi}}(\boldsymbol{\eta})=[\boldsymbol{\xi},\boldsymbol{\eta}] = \boldsymbol{\xi}^\wedge\boldsymbol{\eta}^\wedge-\boldsymbol{\eta}^\wedge\boldsymbol{\xi}^\wedge$. Furthermore, the small and group adjoints are related via the exponential, such that $\mathrm{Ad}_{\exp(\mathbf{a}^\wedge)}=\exp(\mathrm{ad}_\mathbf{a})$.
+\end{itemize}
