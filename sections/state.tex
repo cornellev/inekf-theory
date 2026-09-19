@@ -19,7 +19,7 @@ We define the state as in the two-frame group composition, as defined in \textco
   \label{eq:car_state}
 \end{equation}
 
-where $\mathbf{l}\in \mathbb{R}^3$ is an estimate on the lever arm between the GPS and the axle of the car, used for NHC measurement models \textcolor{red}{CITE which section once you have it}. This is a subset of the general group form $\chi = (R,\mathbf{x},\mathbf{y})$, where $R\in SO(3), \mathbf{x} \in \mathbb{R}^{3k}$ (world-frame vectors), and $\mathbf{y} \in \mathbb{R}^{3\ell}$ (body-frame vectors). The group's composition properties are defined as the following:
+where $\mathbf{l}\in \mathbb{R}^3$ is an estimate on the lever arm between the GPS and the axle of the car, used for NHC measurement models \textcolor{red}{CITE which section once you have it}. This is an instance of the general two-frame group form $\chi = (R,\mathbf{x},\mathbf{y})$, where $R\in SO(3), \mathbf{x} \in \mathbb{R}^{3k}$ (world-frame vectors), and $\mathbf{y} \in \mathbb{R}^{3\ell}$ (body-frame vectors). The group's composition properties are defined as the following:
 
 \begin{equation}
   \begin{gathered}
@@ -40,7 +40,7 @@ As we are defining a primarily \textbf{world-centric} estimator, we define the p
   \label{eq:ri_error}
 \end{equation}
 
-Because we have defined the filter state on a matrix lie group, we must define its associated lie algebra. The dimension of the state is 18 (we need only an $\mathbb{R}^3$ perturbation to the orientation as an algebra element), therefore we can make use of the group composition properties defined in \eqref{eq:tfg_properties} to decompose \eqref{eq:ri_error} into the error dynamics for each portion of the state:
+Because we have defined the filter state on a matrix lie group, we must define its associated lie algebra. The dimension of the state is 18 (we need only an $\mathbb{R}^3$ perturbation to the orientation as an algebra element). Using the composition properties in $(2)$, we can make use of the group composition properties defined in \eqref{eq:tfg_properties} to decompose \eqref{eq:ri_error} into the error for each portion of the state:
 
 \begin{equation}
   \begin{gathered} 
@@ -51,4 +51,4 @@ Because we have defined the filter state on a matrix lie group, we must define i
   \label{eq:error_dynamics}
 \end{equation}
 
-This means that the associated lie-alegbra coordinates are such that $\bsxi = \log \bseta \in \mathbb{R}^{18}$. 
+This means that the associated lie-alegbra coordinates are such that $\bsxi = (\log \bseta)^\vee  \in \mathbb{R}^{18}$. 
