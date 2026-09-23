@@ -47,21 +47,33 @@ This measurement is deliberately excluded from the group, and is simply a method
 \end{equation}
 
 \subsection{Left-Invariant Measurement Models}
-Left-Invariant measurement model observes sensors attached to the robot that measure in world coordinates. 
+Left-Invariant measurement models observe sensors attached to the robot that measure in world coordinates.
+
 \subsubsection{GPS Position Measurement}
-We define the GPS position as the of the antenna in the ENU(East, North, Up) world frame. Let us define l as the vector going from the IMU to the GPS-antenna expressed relative to the body-frame. \begin{equation}
+We define the GPS position as the of the antenna in the ENU(East, North, Up) world frame. Let us define $\mathbf{l}$ as the vector going from the car axle to the GPS-antenna expressed relative to the body-frame. \textcolor{red}{(I believe the axle-to-GPS is the right way to define $\mathbf{l}$, but I could be wrong?)} \begin{equation}
 \begin{gathered}
-        \fv{W}{\dbf{p}}_{antenna}=\fv{W}{\dbf{p}}_{\mathcal{B}}+\rotmat{W}{\mathcal{B}}\fv{\mathcal{B}}l
+  \fv{W}{\dbf{p}}_{\mathrm{antenna}}=\fv{W}{\dbf{p}}_{\mathcal{B}}+\rotmat{W}{\mathcal{B}}\fv{\mathcal{B}}l
     \end{gathered}
 \end{equation}
-Defining our selection vector as $d=\begin{pmatrix}
-    1^T,0,1
-\end{pmatrix}^T$\begin{equation}
-    Xd=\begin{bmatrix}
-        R&v&p\\0&1&0\\0&0&1
-    \end{bmatrix}\begin{bmatrix}
-        1\\0\\1
-    \end{bmatrix}=\begin{bmatrix}
-        Rl+p\\0\\1
+Defining our selection vector as $\mathbf{d}=\begin{bmatrix}
+    1^\top,0,1
+\end{bmatrix}^\top$:
+
+\begin{equation}
+    X\mathbf{d}=\begin{bmatrix}
+      R & \mathbf{v} & \mathbf{p} \\ 
+        0 & 1 & 0 \\ 
+        0 & 0 & 1
     \end{bmatrix}
+    \begin{bmatrix}
+        1 \\
+        0 \\
+        1
+    \end{bmatrix}
+    =\begin{bmatrix}
+      R\mathbf{l}+ \mathbf{p} \\ 
+      0 \\
+      1
+    \end{bmatrix}
+  \label{eq:gps_model}
 \end{equation}
