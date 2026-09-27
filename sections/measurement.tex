@@ -6,6 +6,10 @@
 We formulate the measurement models in both the \textit{right-invariant} and \textit{left-invariant} forms \textcolor{red}{(CITE this)}, i.e. $\mathbf{Y}_i = X^{-1} \mathbf{d}_i + \mathbf{V}_i$ for right-invariant and $\mathbf{Y}_i = X\mathbf{d}_i + \mathbf{V}_i$ for left-invariant. We define four measurement models, two in the right-invariant form (body frame centric), and two in the left-invariant form.
 
 \subsection{Right-Invariant Measurement Models}
+First, let us define the error terms. 
+$$\eta^L_R = R^\mathsf{T}\hat R, \qquad \boldsymbol\eta^L_{\mathbf{x}} = R^\mathsf{T}(\hat{\mathbf{x}} - \mathbf{x}), \qquad \boldsymbol\eta^L_{\mathbf{y}} = \hat{\mathbf{y}} - \hat R^\mathsf{T}R\mathbf{y}$$
+
+
 
 \subsubsection{Body-Frame Velocity Psuedo Measurement}
 
@@ -47,16 +51,40 @@ This measurement is deliberately excluded from the group, and is simply a method
 \end{equation}
 
 \subsection{Left-Invariant Measurement Models}
+
+
 Left-Invariant measurement models observe sensors attached to the robot that measure in world coordinates.
 
 \subsubsection{GPS Position Measurement}
-We define the GPS position as the of the antenna in the ENU(East, North, Up) world frame. Let us define $\mathbf{l}$ as the vector going from the car axle to the GPS-antenna expressed relative to the body-frame. \textcolor{red}{(I believe the axle-to-GPS is the right way to define $\mathbf{l}$, but I could be wrong?)} \begin{equation}
+We define the GPS position as the position of the antenna in the ENU(East, North, Up) world frame. Let us define $\mathbf{l}$ as the vector going from the IMU to the GPS-antenna expressed relative to the body-frame. \begin{equation}
 \begin{gathered}
-  \fv{W}{\dbf{p}}_{\mathrm{antenna}}=\fv{W}{\dbf{p}}_{\mathcal{B}}+\rotmat{W}{\mathcal{B}}\fv{\mathcal{B}}l
+z = p + Rl+n\\
+\hat z = \hat p + \hat R \hat I 
     \end{gathered}
 \end{equation}
+Where $n \approx \mathcal{N}(0,\text{cov} )$. Deriving an expression for true rotation in terms of predicted rotation and error
+\begin{equation}
+  \begin{aligned}
+    \eta^L_x = \rotmat{W}{B}^T(\hat x - x)\\
+    \rotmat{W}{B}\eta^L_x = \hat x - x\\
+    -\rotmat{W}{B}\eta^L_x =  x-\hat x \\
+    \text{Now plugging in x}\\
+    p - \hat p = -\rotmat{W}{B}\eta^L_p\\
+    \text{Now p}\\
+    -\hat R  \eta^L_l = \hat R \hat l - Rl \\
+    Rl-\hat R \hat l = - \hat R^L_l 
+  \end{aligned}
+\end{equation}
+Now, we derive $z-\hat z$
+\begin{equation}
+  \begin{aligned}
+z-\hat z =p-\hat p + Rl - \hat R \hat l + n\\
+z - \hat z = -R \eta^L_p-\hat R \eta^L_l +n \\
+z - \hat z = -R(\eta^L_p+\eta^L_l)+n\\
+  \end{aligned}
+\end{equation}
 Defining our selection vector as $\mathbf{d}=\begin{bmatrix}
-    1^\top,0,1
+    l^T,0,1
 \end{bmatrix}^\top$:
 
 \begin{equation}
@@ -66,7 +94,7 @@ Defining our selection vector as $\mathbf{d}=\begin{bmatrix}
         0 & 0 & 1
     \end{bmatrix}
     \begin{bmatrix}
-        1 \\
+        l \\
         0 \\
         1
     \end{bmatrix}
@@ -76,4 +104,54 @@ Defining our selection vector as $\mathbf{d}=\begin{bmatrix}
       1
     \end{bmatrix}
   \label{eq:gps_model}
+
 \end{equation}
+\subsubsection{GPS Doppler Velocity Measurement}
+We define the GPS velocity as that of the antenna in the ENU world frame. We assume that the gps is rigidly connected to the body. By rigid body kinematics, we have
+\begin{equation}
+\begin{gathered}
+\fv{W}{v}_{\mathrm{antenna}}=\fv{W}{v}_{\mathcal{B}}+\rotmat{W}{\mathcal{B}}(\omega^\wedge\,\fv{\mathcal{B}}{l})+n\\
+
+\fv{W}{\hat v}_{\mathrm{antenna}}=\fv{W}{\hat v}_{\mathcal{B}}+\rotmat{W}{\mathcal{B}}(\bar\omega^\wedge\,\fv{\mathcal{B}}{\hat l})
+\end{gathered}
+\end{equation}
+Where $\bar \omega$ is the angualr velocity minus the bias son $\bar \omega = \hat \omega - \hat b_g$. 
+Now we define some other useful quantities and approximations.\\
+$$\hat R^T R =\exp{-\xi_R^\wedge}=I-\xi_R^\wedge+\frac{1}{2}(\xi_R^\wedge)^2...$$
+$$\hat R^T R \approx I- \xi_R^\wedge$$
+$$\omega = \bar \omega+ \delta B_g-n_g$$\\
+$$\eta^L_l = \hat{l} - \hat R^\mathsf{T}Rl$$
+$$\eta^L_R \approx I + \xi_R^\wedge$$ 
+$$\eta^L_l \approx \xi_l$$
+$$l = \eta^L_R(\hat{l} - \eta^L_l)\approx(l+\eta^{\wedge}_R)(I -\eta_R)\approx\hat{l} + \xi_R^\wedge\hat{l} - \xi_l$$
+$$\delta{b}_g = \hat{{b}}_g - {b}_g \approx \xi_{b_g} - \xi_R^\wedge\hat{{b}}_g\approx\xi_{b_g}$$
+Now let us derive our innovation 
+\begin{equation}
+  \begin{aligned}
+r = \hat R^T(z-\hat z)=\\
+\hat R^\top R\,(\omega^\wedge{l}) - \bar{\omega}^\wedge\hat{{l}}
+\text{plugging in our approximations gives us}\\
+
+  \end{aligned}
+\end{equation}
+We define our selection vector as $d = (0_3, 1, 0)$
+\begin{equation}
+    X\mathbf{d}=\begin{bmatrix}
+      R & \mathbf{v} & \mathbf{p} \\ 
+        0 & 1 & 0 \\ 
+        0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        0 \\
+        1 \\
+        0
+    \end{bmatrix}
+    =\begin{bmatrix}
+      v\\
+      1 \\
+      0
+    \end{bmatrix}
+  \label{eq:gps_vel_model}
+
+\end{equation}
+
