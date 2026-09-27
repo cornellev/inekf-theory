@@ -79,9 +79,17 @@ Now, we derive $z-\hat z$
 \begin{equation}
   \begin{aligned}
 z-\hat z =p-\hat p + Rl - \hat R \hat l + n\\
-z - \hat z = -R \eta^L_p-\hat R \eta^L_l +n \\
-z - \hat z = -R(\eta^L_p+\eta^L_l)+n\\
+z - \hat z = - R \eta^L_p-\hat R \eta^L_l +n \\
+z - \hat z = -\hat R((\eta_R^L)^T\eta^L_p+\eta^L_l)+n\\
   \end{aligned}
+\end{equation}
+Now let us define the innovation as \begin{equation}
+r= \hat R^T(z-\hat z)
+\end{equation}
+This gives useful\begin{equation}
+  H^L_{pos}=\begin{bmatrix}
+    0&0&-I&0&0&-I
+  \end{bmatrix}
 \end{equation}
 Defining our selection vector as $\mathbf{d}=\begin{bmatrix}
     l^T,0,1
@@ -129,8 +137,9 @@ Now let us derive our innovation
 \begin{equation}
   \begin{aligned}
 r = \hat R^T(z-\hat z)=\\
-\hat R^\top R\,(\omega^\wedge{l}) - \bar{\omega}^\wedge\hat{{l}}
+\hat R^\top R\,(\omega^\wedge{l}) - \bar{\omega}^\wedge\hat{{l}}\\
 \text{plugging in our approximations gives us}\\
+(I - \xi_R^\wedge)(\bar{\omega} + \xi_{b_g} - \mathbf{n}_g)^\wedge(\hat{{l}} + \xi_R^\wedge\hat{{l}} - \xi_l) - \bar{\omega}^\wedge\hat{{l}}
 
   \end{aligned}
 \end{equation}
