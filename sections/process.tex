@@ -53,6 +53,14 @@ Using the right-invariant error convention as defined in \eqref{eq:ri_error}, we
   \begin{gathered}
   \dot{\eta}_R = \dot{\hat{R}}R^\top + \hat{R}\dot{R}^\top = \hat{R}\bar{\bsomega}^\wedge R^\top - \hat{R}\bsomega^\wedge R^\top \\
   \dot{\eta}_R = \hat{R}(\bar{\bsomega}-\bsomega)^\wedge R^\top
-  \end{gathered}
+\end{gathered}
   \label{eq:rotation_error1}
+\end{equation}
+Using $\bar \omega -\omega  = -\delta b_g+n_g$ and $R\delta b_g = \eta_{b_g}$ gets us 
+\begin{equation}
+  \dot \eta_R = -\eta_R \eta^\wedge_{b_g}+\eta_R(Rn_g)^\wedge
+\end{equation}
+Pattern matching with rotation ate of change gives us $\dot \eta_R = -\eta_R\hat \omega_{b}^\wedge$. We also know that $\omega_b = J_r(\xi_R)\dot \xi_R$.\\
+\begin{equation}
+  \dot \xi_R = J^{-1}_r(\xi_R)\omega_b=-J_r^{-1}(\xi_R)\eta_{b_g}
 \end{equation}
