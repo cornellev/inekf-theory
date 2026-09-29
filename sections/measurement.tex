@@ -16,9 +16,19 @@ $$\eta^L_R = R^\mathsf{T}\hat R, \qquad \boldsymbol\eta^L_{\mathbf{x}} = R^\math
 We define the body-frame velocity at the IMU origin as $\fv{B}{v} = \rotmat{W}{B}^\top \fv{W}{v}_{\mathcal{B}}$. And if we define $\mathbf{r}_w$ as the vector from the IMU origin to the center of the rear axle, by rigid body kinematics we have:
 
 \begin{equation}
+  \begin{aligned}
   \fv{B}{v}_{\mathrm{axle}} = \fv{B}{v}_{\mathrm{IMU}} + \bsomega^\wedge \mathbf{r}_w
-  \label{eq:axle_vel}
+  \label{eq:axle_vel}\\
+  v_{axle} = R^Tv+\omega^\wedge r_\omega 
+\end{aligned}
 \end{equation}
+We have two cases of ZUPT. Let us tackle the first where the car is moving forward but we are confident that there is no drift.\\
+Let us define a selection matrix $\mathbb{M} = \begin{pmatrix}0&1&0\\0&0&1 \end{pmatrix}$
+Now let us define a selection matrix for when we know that the car is stopped $\mathbb{M} = I_3$
+\begin{equation}
+  \mathbb{M}v_{axle} = \mathbf{0}+\mathbb{M}n\\
+\end{equation}
+Innovation is trivial $r=-\mathbb{M}\hat (\hat R^T \hat v+\bar \omega ^\wedge r_{\omega})$\\
 
 Now that we have the equation, we need to put this into Lie group measurement form. As this is body frame, we need to utilize the inverse of the state, as defined in \eqref{eq:inverse_state}. If we define the selection vector $\mathbf{d}=(\mathbf{0}_3,1,0)^\top$, then we get our measurement model as:
 
@@ -45,7 +55,7 @@ This measurement is deliberately excluded from the group, and is simply a method
 \begin{equation}
   \begin{gathered}
     \mathbf{z} = \tilde{\bsomega} - \hbs{b}_g \\
-    H = \begin{bmatrix} 0 & 0 & 0 & -I_3 & 0 \end{bmatrix}
+    H = \begin{bmatrix} 0 & 0 & 0 & -\hat R^T_3 & 0 \end{bmatrix}
   \end{gathered}
   \label{eq:}
 \end{equation}
@@ -86,7 +96,7 @@ z - \hat z = -\hat R((\eta_R^L)^T\eta^L_p+\eta^L_l)+n\\
 Now let us define the innovation as \begin{equation}
 r= \hat R^T(z-\hat z)
 \end{equation}
-This gives useful\begin{equation}
+This gives us\begin{equation}
   H^L_{pos}=\begin{bmatrix}
     0&0&-I&0&0&-I
   \end{bmatrix}
@@ -137,11 +147,19 @@ Now let us derive our innovation
 \begin{equation}
   \begin{aligned}
 r = \hat R^T(z-\hat z)=\\
-\hat R^\top R\,(\omega^\wedge{l}) - \bar{\omega}^\wedge\hat{{l}}\\
+\hat R^T(v-\hat v)+\hat R^\top R\,(\omega^\wedge{l}) - \bar{\omega}^\wedge\hat{{l}}+\hat R^T n=\\
 \text{plugging in our approximations gives us}\\
-(I - \xi_R^\wedge)(\bar{\omega} + \xi_{b_g} - \mathbf{n}_g)^\wedge(\hat{{l}} + \xi_R^\wedge\hat{{l}} - \xi_l) - \bar{\omega}^\wedge\hat{{l}}
-
+(I - \xi_R^\wedge)(\bar{\omega} + \xi_{b_g} - {n}_g)^\wedge(\hat{{l}} + \xi_R^\wedge\hat{{l}} - \xi_l) - \bar{\omega}^\wedge\hat{{l}}=\\
+\text{Now multiplying out the parenthesis and}\\\text{ removing terms with two small values gives us}\\
+\bar \omega^\wedge \hat l - \xi_R^\wedge \bar \omega^\wedge \hat l + \xi_{b_g}^\wedge \hat l-n_g^\wedge \hat l+\bar \omega\xi_R^\wedge \hat l - \bar \omega \xi_l -\bar^\wedge \hat l=\\
+ \xi_R^\wedge \bar \omega^\wedge \hat l + \xi_{b_g}^\wedge \hat l-n_g^\wedge \hat l+\bar \omega\xi_R^\wedge \hat l - \bar \omega \xi_l =\\
+ -(\xi_R^\wedge \bar \omega^\wedge-\bar \omega^\wedge\xi_R^\wedge )\hat l-\hat l \xi_{b_g}^\wedge-\bar \omega \xi_l-n_g^\wedge \hat l=\\
+-\hat l^\wedge \bar \omega^\wedge \xi_R-\hat l^\wedge \xi_{b_g}-\bar \omega \xi_l-n_g^\wedge \hat l
   \end{aligned}
+\end{equation}
+This gives us 
+\begin{equation}
+  H^L_{dopVel}= \begin{bmatrix}-\hat l_R^\wedge \bar \omega^\wedge&-I&0&-\hat l^\wedge &0&-\bar \omega \end{bmatrix} 
 \end{equation}
 We define our selection vector as $d = (0_3, 1, 0)$
 \begin{equation}
@@ -163,4 +181,5 @@ We define our selection vector as $d = (0_3, 1, 0)$
   \label{eq:gps_vel_model}
 
 \end{equation}
+\subsection{Update}
 
