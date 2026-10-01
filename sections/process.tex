@@ -69,13 +69,30 @@ Pattern matching with rotation ate of change gives us $\dot \eta_R = -\eta_R\hat
   )
 
 \end{equation}
-\subsubsection{Velocity Error}
+\subsubsection{Body Block Error}
 \begin{equation}
 \dot \eta_y = \dot R(\hat{\mathbf{y}} - \mathbf{y}) + R(\dot{\hat{\mathbf{y}}} - \dot{\mathbf{y}})
 
 \end{equation}
   $\dot \hat y = 0$ and $\dot y = W_y$ where $W_y$ is noise. 
   \begin{equation}
-=R\omega^\wedge(\hat y-y)-Rw_y
+=(R\omega)^\wedge R(\hat y-y)-RW_y
   \end{equation}
   Now we use that $$R\omega = \eta_R^\top{\hat R\bar{\omega}}_{{}} + \eta_{b_g} - R{n}_g$$
+$$\dot \eta_y = (\eta_R^\top{\hat R\bar{\omega}} + \eta_{b_g} - R{n}_g)^\wedge R(\hat y - y)-RW_y$$
+$$= ((\eta_R^\top{\hat R\bar{\omega}})^\wedge + (\eta_{b_g}  )^\wedge -(R{n}_g)^\wedge)\eta_y-RW_y$$\\
+NOTE: $R \to \hat R$ is also an approximation that may impact the covariance matrix!
+$$\approx(\hat R \bar \omega)^\wedge \eta_y-\hatRW_y$$
+$$\dot \xi_y \approx (\hat R \bar \omega)^\wedge \xi_y-\hat R w_y$$
+\subsubsection{Velocity Error}
+$$\eta_v = \hat v - \eta_r v$$
+$$\dot \eta_v = \dot \hat v - \dot \eta_r v - \eta_r \dot v$$
+Now, let us write useful identities. 
+\begin{equation}
+  \begin{aligned}
+  \eta_r R = \hat R\\
+  \hat R \bar a -\eta_R R a = \hat R(\bar a - a)
+  \end{aligned}
+\end{equation}
+$$$$
+
