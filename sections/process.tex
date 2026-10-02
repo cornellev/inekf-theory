@@ -87,12 +87,67 @@ $$\dot \xi_y \approx (\hat R \bar \omega)^\wedge \xi_y-\hat R w_y$$
 \subsubsection{Velocity Error}
 $$\eta_v = \hat v - \eta_r v$$
 $$\dot \eta_v = \dot \hat v - \dot \eta_r v - \eta_r \dot v$$
+$$
+= (\hat R\bar{{a}} + {g}) - \dot\eta_R{v} - \eta_R(R{a} + {g})
+$$
+$$=\hat R \bar a - \eta_R Ra+g-\dot \eta_Rv - \eta_R g$$
 Now, let us write useful identities. 
 \begin{equation}
   \begin{aligned}
   \eta_r R = \hat R\\
-  \hat R \bar a -\eta_R R a = \hat R(\bar a - a)
+  \hat R \bar a -\eta_R R a = \hat R(\bar a - a)\\
+   = \eta_R R(-\delta b_a + n_a)=\\
+   -\eta_r \eta_{b_a}+\hat R n_a
+  \end{aligned}
+
+\end{equation}
+Using these, we get 
+$$\dot \eta_v = -\eta_R \eta_{b_a}+\hat R n_a +(I-\eta_R)g-\dot \eta_R v $$
+
+We now expand the final term. From ??,
+$-\dot\eta_R = \eta_R\eta_{b_g}^\wedge - \eta_R(R{n}_g)^\wedge$, so
+\begin{equation}
+  -\dot\eta_R{v}
+    = \eta_R\eta_{b_g}^\wedge{v} - \eta_R(R{n}_g)^\wedge{v}
+\end{equation}
+
+Substituting ${v} = \eta_R^\top(\hat{{v}} - \eta_v)$ and applying
+the conjugation identity $\eta_R\mathbf{u}^\wedge\eta_R^\top =
+(\eta_R\mathbf{u})^\wedge$:
+\begin{equation}
+  \begin{aligned}
+    \eta_R\eta_{b_g}^\wedge\mathbf{v}
+      &= \eta_R\eta_{b_g}^\wedge\eta_R^\top(\hat{\mathbf{v}} - \bseta_v) \\
+      &= (\eta_R\bseta_{b_g})^\wedge(\hat{\mathbf{v}} - \bseta_v)
   \end{aligned}
 \end{equation}
-$$$$
 
+Retaining only first-order terms, $\eta_R \approx I$ and the product
+$(\cdot)^\wedge\bseta_v$ is second order, so
+\begin{equation}
+  \begin{aligned}
+    (\eta_R\bseta_{b_g})^\wedge(\hat{\mathbf{v}} - \bseta_v)
+      &\approx \bseta_{b_g}^\wedge\hat{\mathbf{v}}
+       = -\hat{\mathbf{v}}^\wedge\bsxi_{b_g} \\
+    -\eta_R(R\mathbf{n}_g)^\wedge\mathbf{v}
+      &\approx -(\hat{R}\mathbf{n}_g)^\wedge\hat{\mathbf{v}}
+       = \hat{\mathbf{v}}^\wedge\hat{R}\mathbf{n}_g
+  \end{aligned}
+\end{equation}
+
+The remaining two terms linearize as
+\begin{equation}
+  \begin{aligned}
+    (I - \eta_R)\mathbf{g} &\approx -\bsxi_R^\wedge\mathbf{g}
+      = \mathbf{g}^\wedge\bsxi_R \\
+    -\eta_R\bseta_{b_a} &\approx -\bsxi_{b_a}
+  \end{aligned}
+\end{equation}
+
+Collecting all terms gives the velocity error dynamics:
+\begin{equation}
+  \dot{\bsxi}_v = \mathbf{g}^\wedge\bsxi_R - \hat{\mathbf{v}}^\wedge\bsxi_{b_g}
+    - \bsxi_{b_a} + \hat{\mathbf{v}}^\wedge\hat{R}\mathbf{n}_g
+    + \hat{R}\mathbf{n}_a
+  \label{eq:vel_error}
+\end{equation}
