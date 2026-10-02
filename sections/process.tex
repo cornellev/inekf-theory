@@ -151,3 +151,17 @@ Collecting all terms gives the velocity error dynamics:
     + \hat{R}\mathbf{n}_a
   \label{eq:vel_error}
 \end{equation}
+\subsubsection{Position Error}
+$$\eta_p = \hat p - \eta_R P$$
+$$\dot \eta_p = \hat v-\eta_R p - \eta_Rv=\eta_v-\dot \eta_Rp$$\\
+$$=\eta_v-\dot \eta_R\eta_R^T(\hat p -\eta_P)$$\\
+Now,we use that $-\dot\eta_R = \eta_R\eta_{b_g}^\wedge - \eta_R(Rn_g)^\wedge$ and $\eta_R u^\wedge \eta_R^T = (\eta_R u)^\wedge$for any vector u 
+to get:\\
+
+$$= (\eta_R\eta_{b_g})^\wedge(\hat{{p}} - \eta_p) - (\eta_R R{n}_g)^\wedge(\hat{p} - \eta_p)$$
+Now we expand and drop terms with noise of degree greather than 1(linearize), giving us
+$$\approx \eta_{b_g}^\wedge \hat p - (\hat R n_g)^\wedge\hat p$$
+\begin{equation}
+  \dot \xi_p =-\hat p^\wedge \xi_{b_g}+\hat p^\wedge \hat R n_g 
+\end{equation}
+
