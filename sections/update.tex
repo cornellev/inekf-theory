@@ -1,4 +1,41 @@
 
 \subsection{Update}
 Our filter propogates variance using right-invariant error $\eta = \hat \chi \chi^T$
-Our pseudo measurements are right-invariant adn can be applied directly to the errror.The GNSS measurements however are left invariant and have constant (or close to constant for biases) jacobians only in left-invariant coordinates. 
+Our pseudo measurements are right-invariant adn can be applied directly to the errror.The GNSS measurements however are left invariant and have constant (or close to constant for biases) jacobians only in left-invariant coordinates. \\
+To mitigate this, we transform the covariance amtrix to left-invariant coordinates for the update. The cost will be 4 matrix multiplies.\\
+Let us first define our adjoint $Ad_\mathcal{X}$ which is defined as the unique amtrix which satisfies $$\mathcal{X} \exp(\delta^\wedge)\mathcal{X}^{-1} = \exp((Ad_\mathcal{X})^\wedge)$$\\
+The relation of right and left ivnariant errors is defined as:
+$$\xi^R = \mathrm{Ad}_{\hat\chi}\,\xi^L, \qquad \mathrm{Ad}_{\hat\chi}^{-1} = \mathrm{Ad}_{\hat\chi^{-1}}$$\\
+\subsubsection{Defining A and G matrices}
+Combining the errors that we derived earlier
+$$
+A = \begin{bmatrix}
+0 & 0 & 0 & -I & 0 & 0 \\
+\mathbf{g}^\wedge & 0 & 0 & -\hat{\mathbf{v}}^\wedge & -I & 0 \\
+0 & I & 0 & -\hat{\mathbf{p}}^\wedge & 0 & 0 \\
+0 & 0 & 0 & (\hat{R}\bar{\bsomega})^\wedge & 0 & 0 \\
+0 & 0 & 0 & 0 & (\hat{R}\bar{\bsomega})^\wedge & 0 \\
+0 & 0 & 0 & 0 & 0 & (\hat{R}\bar{\bsomega})^\wedge
+\end{bmatrix}
+$$
+Now, combining the nosie terms of the errors gives us 
+$$
+G = \begin{bmatrix}
+\hat R & 0 & 0 & 0 & 0 & 0 \\
+\hat v^\wedge\hat R & \hat R & 0 & 0 & 0 & 0 \\
+\hat p^\wedge\hat R & 0 & \hat R & 0 & 0 & 0 \\
+0 & 0 & 0 & \hat R & 0 & 0 \\
+0 & 0 & 0 & 0 & \hat R & 0 \\
+0 & 0 & 0 & 0 & 0 & \hat R
+\end{bmatrix}$$,\\$$ \qquad Q_c = \mathrm{diag}\big(\Sigma_g,\ \Sigma_a,\ 0,\ \Sigma_{bg},\ \Sigma_{ba},\ \Sigma_l\big)
+$$
+Position has no noise because it is driven by velocity through $\dot p = v$
+
+Notice how the navigation portion of A only depends on constants. Also, notice how the top 9x9 block of G is equal to the adjoint $Ad_\chi$\\
+$\dot \xi = A \xi+Gw$
+\subsubsection{Right Invariant Updates}
+$$S = HPH^\top + N^{\text{eff}}, \qquad K = PH^\top S^{-1}, \qquad \delta = K{r}$$
+\subsubsection{Left Invariant Updates}
+$$
+
+
